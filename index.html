@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cotizador de Terrenos</title>
+    <style>
+        :root {
+            --bg: #0b1220;
+            --panel: #121a2b;
+            --muted: #9fb0c3;
+            --text: #e8eef6;
+            --accent: #4f8cff;
+            --accent-2: #35d3a7;
+            --danger: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, #0b1220, #0e1526);
+            color: var(--text);
+            font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px
+        }
+
+        header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px
+        }
+
+        header h1 {
+            font-size: clamp(20px, 3vw, 28px);
+            margin: 0;
+            font-weight: 700
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid #1d2740;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .25)
+        }
+
+        .grid {
+            display: grid;
+            gap: 16px
+        }
+
+        .inputs {
+            grid-template-columns: repeat(12, 1fr);
+            padding: 18px
+        }
+
+        .inputs .field {
+            grid-column: span 12;
+            background: #0f1830;
+            border: 1px solid #1f2a48;
+            border-radius: 12px;
+            padding: 12px
+        }
+
+        @media(min-width:720px) {
+            .inputs .field {
+                grid-column: span 6
+            }
+        }
+
+        @media(min-width:1024px) {
+            .inputs .field {
+                grid-column: span 4
+            }
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #2b395c;
+            background: #0a1226;
+            color: var(--text);
+            padding: 10px 12px
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid var(--accent)
+        }
+
+        .row {
+            display: flex;
+            gap: 10px
+        }
+
+        .row>* {
+            flex: 1
+        }
+
+        .note {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px
+        }
+
+        .btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .btn {
+            cursor: pointer;
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-weight: 700
+        }
+
+        .btn.secondary {
+            background: #16213b;
+            border: 1px solid #26345c
+        }
+
+        .btn.ghost {
+            background: transparent;
+            border: 1px dashed #36507f;
+            color: #bcd2f0
+        }
+
+        .btn.danger {
+            background: var(--danger)
+        }
+
+        .results {
+            padding: 18px
+        }
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px
+        }
+
+        @media(min-width:720px) {
+            .kpis {
+                grid-template-columns: repeat(4, 1fr)
+            }
+        }
+
+        .kpi {
+            background: #0f1830;
+            border: 1px solid #1f2a48;
+            border-radius: 12px;
+            padding: 14px
+        }
+
+        .kpi .lbl {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .kpi .val {
+            font-size: 20px;
+            font-weight: 800;
+            margin-top: 6px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #203052;
+            padding: 10px;
+            text-align: right
+        }
+
+        th:first-child,
+        td:first-child {
+            text-align: left
+        }
+
+        .footer {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        details {
+            background: #0f1830;
+            border: 1px solid #1f2a48;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 14px
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 700
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div margin="auto">
+
+                <img src="img/ML_LOGO.png" alt="" height="100">
+                <img src="img/RLP_LOGO.png" alt="" height="100">
+
+            </div>
+            <div class="btns">
+                <button class="btn ghost" id="btnImprimir">Imprimir</button>
+                <button class="btn ghost" id="btnCSV">Exportar CSV</button>
+                <button class="btn danger" id="btnLimpiar">Limpiar</button>
+            </div>
+        </header>
+
+        <section class="card grid inputs">
+            <div class="field">
+                <label for="precio">Precio del terreno</label>
+                <div class="row">
+                    <input id="precio" type="number" min="0" step="0.01" placeholder="0.00" />
+                    <select id="moneda">
+                        <option value="GTQ" selected>Q (GTQ)</option>
+                        <option value="USD">$ (USD)</option>
+                        <option value="MXN">$ (MXN)</option>
+                        <option value="COP">$ (COP)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Enganche</label>
+                <div class="row">
+                    <input id="engancheValor" type="number" min="0" step="0.01" placeholder="0.00" />
+                    <select id="engancheTipo">
+                        <option value="monto" selected>Monto</option>
+                        <option value="porcentaje">Porcentaje %</option>
+                    </select>
+                </div>
+                <div class="note">Puedes ingresar un monto fijo o un porcentaje del precio.</div>
+            </div>
+
+            <div class="field">
+                <label>Plazo</label>
+                <div class="row">
+                    <input id="plazo" type="number" min="1" step="1" placeholder="12" />
+                    <select id="plazoTipo">
+                        <option value="meses" selected>Meses</option>
+                        <option value="anios">Años</option>
+                    </select>
+                </div>
+                <div class="btns" style="margin-top:8px">
+                    <button class="btn secondary preset" data-meses="12">12</button>
+                    <button class="btn secondary preset" data-meses="24">24</button>
+                    <button class="btn secondary preset" data-meses="36">36</button>
+                    <button class="btn secondary preset" data-meses="60">60</button>
+                </div>
+            </div>
+
+
+
+            <div class="field">
+                <label for="tasa">Tasa de interés anual</label>
+                <span>4.5%</span>
+                <input type="hidden" id="tasa" value="4.5">
+            </div>
+
+
+
+            <div class="field">
+                <label>Gastos adicionales (opcional)</label>
+                <div class="row">
+                    <input id="gastos" type="number" min="0" step="0.01" placeholder="0.00" />
+                    <select id="gastosTipo">
+                        <option value="unico" selected>Único (al inicio)</option>
+                        <option value="mensual">Mensual (se suma a la cuota)</option>
+                    </select>
+                </div>
+                <div class="note">Para escrituras, administración, mantenimiento, etc.</div>
+            </div>
+
+            <div class="field">
+                <label>&nbsp;</label>
+                <div class="btns">
+                    <button class="btn" id="btnCalcular">Calcular</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card results" id="resultados" hidden>
+            <div class="kpis" id="kpis"></div>
+
+            <details>
+                <summary>📄 Ver tabla de amortización</summary>
+                <div style="overflow:auto">
+                    <table id="tabla">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Cuota</th>
+                                <th>Interés</th>
+                                <th>Capital</th>
+                                <th>Gastos</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </details>
+
+            <div class="footer">
+                <small class="note">* Este cálculo es informativo y no sustituye una oferta formal.</small>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const $ = (s) => document.querySelector(s);
+        const fmt = (v, cur) => new Intl.NumberFormat('es-GT', { style: 'currency', currency: cur, maximumFractionDigits: 2 }).format(v || 0);
+
+        const precio = $('#precio');
+        const moneda = $('#moneda');
+        const engancheValor = $('#engancheValor');
+        const engancheTipo = $('#engancheTipo');
+        const plazo = $('#plazo');
+        const plazoTipo = $('#plazoTipo');
+        const tasa = $('#tasa');
+        const gastos = $('#gastos');
+        const gastosTipo = $('#gastosTipo');
+
+        const btnCalcular = $('#btnCalcular');
+        const btnImprimir = $('#btnImprimir');
+        const btnCSV = $('#btnCSV');
+        const btnLimpiar = $('#btnLimpiar');
+
+        document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => {
+            plazo.value = b.dataset.meses;
+            plazoTipo.value = 'meses';
+            calcular();
+        }));
+
+        function calcular() {
+            const cur = moneda.value;
+            const P = Number(precio.value) || 0;
+            const enVal = Number(engancheValor.value) || 0;
+            const enTipo = engancheTipo.value; // monto | porcentaje
+            const plazoNum = Math.max(1, Math.floor(Number(plazo.value) || 0));
+            const esMeses = plazoTipo.value === 'meses';
+            const meses = esMeses ? plazoNum : plazoNum * 12;
+            const tasaAnual = 4.5 / 100; // fijo en 4.5%
+            const r = tasaAnual / 12; // mensual
+            const gastosVal = Math.max(0, Number(gastos.value) || 0);
+            const gastosEsMensual = gastosTipo.value === 'mensual';
+
+            if (P <= 0) { return alert('Ingresa el precio del terreno'); }
+            let D = enTipo === 'porcentaje' ? P * (enVal / 100) : enVal;
+            D = Math.max(0, Math.min(D, P));
+            const principal = P - D;
+            if (principal <= 0) {
+                pintarResultados({
+                    cur, P, D, principal, meses, r, gastosVal, gastosEsMensual, cuota: 0, total: D, totalInteres: 0, tabla: []
+                });
+                return;
+            }
+
+            let cuotaSinGastos;
+            if (r === 0) {
+                cuotaSinGastos = principal / meses;
+            } else {
+                cuotaSinGastos = principal * (r) / (1 - Math.pow(1 + r, -meses));
+            }
+            const cuota = cuotaSinGastos + (gastosEsMensual ? gastosVal : 0);
+
+            // Generar tabla de amortización
+            let saldo = principal;
+            const rows = [];
+            for (let i = 1; i <= meses; i++) {
+                const interes = r === 0 ? 0 : saldo * r;
+                const capital = cuotaSinGastos - interes;
+                saldo = Math.max(0, saldo - capital);
+                rows.push({ n: i, cuota: cuota, interes, capital, gastos: gastosEsMensual ? gastosVal : 0, saldo });
+            }
+
+            const totalCuotas = cuota * meses + (gastosEsMensual ? 0 : gastosVal);
+            const total = D + totalCuotas;
+            const totalInteres = Math.max(0, total - (P + (gastosEsMensual ? gastosVal * meses : gastosVal)));
+
+            pintarResultados({ cur, P, D, principal, meses, r, gastosVal, gastosEsMensual, cuota, total, totalInteres, tabla: rows });
+        }
+
+        function pintarResultados(data) {
+            const { cur, P, D, principal, meses, r, gastosVal, gastosEsMensual, cuota, total, totalInteres, tabla } = data;
+            $('#resultados').hidden = false;
+            const k = $('#kpis');
+            k.innerHTML = '' +
+                kpi('Precio del terreno', fmt(P, cur)) +
+                kpi('Enganche', fmt(D, cur) + (P ? ` (${(D / P * 100).toFixed(2)}%)` : '')) +
+                kpi('Saldo a financiar', fmt(principal, cur)) +
+                kpi('Plazo', meses + ' meses') +
+                kpi('Tasa mensual', (r * 100).toFixed(3) + '%') +
+                kpi('Cuota mensual', fmt(cuota, cur)) +
+                kpi('Gastos ' + (gastosEsMensual ? 'mensuales' : 'únicos'), fmt(gastosVal, cur)) +
+                kpi('Total a pagar (incl. enganche)', fmt(total, cur)) +
+                kpi('Intereses estimados', fmt(totalInteres, cur));
+
+            const tbody = document.querySelector('#tabla tbody');
+            tbody.innerHTML = '';
+            tabla.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${r.n}</td><td>${fmt(r.cuota, cur)}</td><td>${fmt(r.interes, cur)}</td><td>${fmt(r.capital, cur)}</td><td>${fmt(r.gastos, cur)}</td><td>${fmt(r.saldo, cur)}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            // Guarda estado para exportar
+            window.__cotizacion = { data, cur };
+        }
+
+        function kpi(lbl, val) {
+            return `<div class="kpi"><div class="lbl">${lbl}</div><div class="val">${val}</div></div>`;
+        }
+
+        btnCalcular.addEventListener('click', calcular);
+        [precio, moneda, engancheValor, engancheTipo, plazo, plazoTipo, tasa, gastos, gastosTipo].forEach(el => {
+            el.addEventListener('input', () => { /* cálculo en vivo opcional */ });
+            el.addEventListener('change', () => { /* reservado */ });
+        });
+
+        btnImprimir.addEventListener('click', () => { window.print() });
+
+        btnCSV.addEventListener('click', () => {
+            if (!window.__cotizacion) { return alert('Primero calcula una cotización.'); }
+            const { data, cur } = window.__cotizacion;
+            const lines = [];
+            lines.push('Campo,Valor');
+            lines.push(`Precio,${data.P}`);
+            lines.push(`Moneda,${cur}`);
+            lines.push(`Enganche,${data.D}`);
+            lines.push(`Saldo a financiar,${data.principal}`);
+            lines.push(`Plazo (meses),${data.meses}`);
+            lines.push(`Tasa mensual,${(data.r * 100).toFixed(3)}%`);
+            lines.push(`Cuota mensual,${data.cuota}`);
+            lines.push(`Gastos ${data.gastosEsMensual ? 'mensuales' : 'únicos'},${data.gastosVal}`);
+            lines.push(`Total a pagar,${data.total}`);
+            lines.push(`Intereses,${data.totalInteres}`);
+            lines.push('');
+            lines.push('N,Cuota,Interés,Capital,Gastos,Saldo');
+            data.tabla.forEach(r => {
+                lines.push([r.n, r.cuota, r.interes, r.capital, r.gastos, r.saldo].join(','));
+            });
+            const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'cotizacion_terreno.csv';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        });
+
+        btnLimpiar.addEventListener('click', () => {
+            [precio, engancheValor, plazo, tasa, gastos].forEach(i => i.value = '');
+            engancheTipo.value = 'monto';
+            plazoTipo.value = 'meses';
+            moneda.value = 'GTQ';
+            $('#resultados').hidden = true;
+            window.__cotizacion = null;
+        });
+    </script>
+</body>
+
+</html>
