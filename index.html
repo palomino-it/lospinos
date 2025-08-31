@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,228 +14,61 @@
             --accent-2: #35d3a7;
             --danger: #ff6b6b;
         }
-
-        * {
-            box-sizing: border-box
-        }
-
+        * { box-sizing: border-box }
         body {
             margin: 0;
             background: linear-gradient(180deg, #0b1220, #0e1526);
             color: var(--text);
             font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif
         }
-
-        .wrap {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px
+        .wrap { max-width: 1100px; margin: 40px auto; padding: 0 20px }
+        header { display: flex; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 20px }
+        header h1 { font-size: clamp(20px, 3vw, 28px); margin: 0; font-weight: 700 }
+        .card { background: var(--panel); border: 1px solid #1d2740; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, .25) }
+        .grid { display: grid; gap: 16px }
+        .inputs { grid-template-columns: repeat(12, 1fr); padding: 18px }
+        .inputs .field { grid-column: span 12; background: #0f1830; border: 1px solid #1f2a48; border-radius: 12px; padding: 12px }
+        @media(min-width:720px) { .inputs .field { grid-column: span 6 } }
+        @media(min-width:1024px) { .inputs .field { grid-column: span 4 } }
+        label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px }
+        input, select, button {
+            width: 100%; border-radius: 10px; border: 1px solid #2b395c; background: #0a1226; color: var(--text); padding: 10px 12px
         }
-
-        header {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px
-        }
-
-        header h1 {
-            font-size: clamp(20px, 3vw, 28px);
-            margin: 0;
-            font-weight: 700
-        }
-
-        .card {
-            background: var(--panel);
-            border: 1px solid #1d2740;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .25)
-        }
-
-        .grid {
-            display: grid;
-            gap: 16px
-        }
-
-        .inputs {
-            grid-template-columns: repeat(12, 1fr);
-            padding: 18px
-        }
-
-        .inputs .field {
-            grid-column: span 12;
-            background: #0f1830;
-            border: 1px solid #1f2a48;
-            border-radius: 12px;
-            padding: 12px
-        }
-
-        @media(min-width:720px) {
-            .inputs .field {
-                grid-column: span 6
-            }
-        }
-
-        @media(min-width:1024px) {
-            .inputs .field {
-                grid-column: span 4
-            }
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: .06em;
-            color: var(--muted);
-            margin-bottom: 6px
-        }
-
-        input,
-        select,
-        button {
-            width: 100%;
-            border-radius: 10px;
-            border: 1px solid #2b395c;
-            background: #0a1226;
-            color: var(--text);
-            padding: 10px 12px
-        }
-
-        input:focus,
-        select:focus {
-            outline: 2px solid var(--accent)
-        }
-
-        .row {
-            display: flex;
-            gap: 10px
-        }
-
-        .row>* {
-            flex: 1
-        }
-
-        .note {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 4px
-        }
-
-        .btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px
-        }
-
-        .btn {
-            cursor: pointer;
-            background: var(--accent);
-            border: none;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-weight: 700
-        }
-
-        .btn.secondary {
-            background: #16213b;
-            border: 1px solid #26345c
-        }
-
-        .btn.ghost {
-            background: transparent;
-            border: 1px dashed #36507f;
-            color: #bcd2f0
-        }
-
-        .btn.danger {
-            background: var(--danger)
-        }
-
-        .results {
-            padding: 18px
-        }
-
-        .kpis {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px
-        }
-
-        @media(min-width:720px) {
-            .kpis {
-                grid-template-columns: repeat(4, 1fr)
-            }
-        }
-
-        .kpi {
-            background: #0f1830;
-            border: 1px solid #1f2a48;
-            border-radius: 12px;
-            padding: 14px
-        }
-
-        .kpi .lbl {
-            font-size: 12px;
-            color: var(--muted)
-        }
-
-        .kpi .val {
-            font-size: 20px;
-            font-weight: 800;
-            margin-top: 6px
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px
-        }
-
-        th,
-        td {
-            border-bottom: 1px solid #203052;
-            padding: 10px;
-            text-align: right
-        }
-
-        th:first-child,
-        td:first-child {
-            text-align: left
-        }
-
-        .footer {
-            margin-top: 16px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap
-        }
-
-        details {
-            background: #0f1830;
-            border: 1px solid #1f2a48;
-            border-radius: 12px;
-            padding: 10px;
-            margin-top: 14px
-        }
-
-        summary {
-            cursor: pointer;
-            font-weight: 700
-        }
+        input:focus, select:focus { outline: 2px solid var(--accent) }
+        .row { display: flex; gap: 10px }
+        .row>* { flex: 1 }
+        .note { font-size: 12px; color: var(--muted); margin-top: 4px }
+        .btns { display: flex; flex-wrap: wrap; gap: 10px }
+        .btn { cursor: pointer; background: var(--accent); border: none; color: white; padding: 10px 14px; border-radius: 12px; font-weight: 700 }
+        .btn.secondary { background: #16213b; border: 1px solid #26345c }
+        .btn.ghost { background: transparent; border: 1px dashed #36507f; color: #bcd2f0 }
+        .btn.danger { background: var(--danger) }
+        .results { padding: 18px }
+        .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px }
+        @media(min-width:720px) { .kpis { grid-template-columns: repeat(4, 1fr) } }
+        .kpi { background: #0f1830; border: 1px solid #1f2a48; border-radius: 12px; padding: 14px }
+        .kpi .lbl { font-size: 12px; color: var(--muted) }
+        .kpi .val { font-size: 20px; font-weight: 800; margin-top: 6px }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px }
+        th, td { border-bottom: 1px solid #203052; padding: 10px; text-align: right }
+        th:first-child, td:first-child { text-align: left }
+        .footer { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap }
+        details { background: #0f1830; border: 1px solid #1f2a48; border-radius: 12px; padding: 10px; margin-top: 14px }
+        summary { cursor: pointer; font-weight: 700 }
+          @media print {
+    button, 
+    .no-print { 
+      display: none !important; 
+    }
+  }
     </style>
 </head>
-
 <body>
     <div class="wrap">
         <header>
             <div margin="auto">
-
                 <img src="img/ML_LOGO.png" alt="" height="100">
                 <img src="img/RLP_LOGO.png" alt="" height="100">
-
             </div>
             <div class="btns">
                 <button class="btn ghost" id="btnImprimir">Imprimir</button>
@@ -258,7 +90,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="field">
                 <label>Enganche</label>
                 <div class="row">
@@ -270,7 +101,6 @@
                 </div>
                 <div class="note">Puedes ingresar un monto fijo o un porcentaje del precio.</div>
             </div>
-
             <div class="field">
                 <label>Plazo</label>
                 <div class="row">
@@ -287,17 +117,11 @@
                     <button class="btn secondary preset" data-meses="60">60</button>
                 </div>
             </div>
-
-
-
             <div class="field">
                 <label for="tasa">Tasa de interés anual</label>
                 <span>4.5%</span>
                 <input type="hidden" id="tasa" value="4.5">
             </div>
-
-
-
             <div class="field">
                 <label>Gastos adicionales (opcional)</label>
                 <div class="row">
@@ -309,7 +133,6 @@
                 </div>
                 <div class="note">Para escrituras, administración, mantenimiento, etc.</div>
             </div>
-
             <div class="field">
                 <label>&nbsp;</label>
                 <div class="btns">
@@ -320,9 +143,8 @@
 
         <section class="card results" id="resultados" hidden>
             <div class="kpis" id="kpis"></div>
-
             <details>
-                <summary>📄 Ver tabla de amortización</summary>
+                <summary>📄 Detalle</summary>
                 <div style="overflow:auto">
                     <table id="tabla">
                         <thead>
@@ -339,7 +161,6 @@
                     </table>
                 </div>
             </details>
-
             <div class="footer">
                 <small class="note">* Este cálculo es informativo y no sustituye una oferta formal.</small>
             </div>
@@ -375,49 +196,65 @@
             const cur = moneda.value;
             const P = Number(precio.value) || 0;
             const enVal = Number(engancheValor.value) || 0;
-            const enTipo = engancheTipo.value; // monto | porcentaje
+            const enTipo = engancheTipo.value; 
             const plazoNum = Math.max(1, Math.floor(Number(plazo.value) || 0));
             const esMeses = plazoTipo.value === 'meses';
             const meses = esMeses ? plazoNum : plazoNum * 12;
-            const tasaAnual = 4.5 / 100; // fijo en 4.5%
-            const r = tasaAnual / 12; // mensual
+
+            const tasaAnual = 4.5 / 100; 
+            const tasaMensual = tasaAnual / 12; // ✅ CORREGIDO
             const gastosVal = Math.max(0, Number(gastos.value) || 0);
             const gastosEsMensual = gastosTipo.value === 'mensual';
 
-            if (P <= 0) { return alert('Ingresa el precio del terreno'); }
+            if (P <= 0) return alert('Ingresa el precio del terreno');
+
             let D = enTipo === 'porcentaje' ? P * (enVal / 100) : enVal;
             D = Math.max(0, Math.min(D, P));
             const principal = P - D;
+
             if (principal <= 0) {
-                pintarResultados({
-                    cur, P, D, principal, meses, r, gastosVal, gastosEsMensual, cuota: 0, total: D, totalInteres: 0, tabla: []
-                });
+                pintarResultados({ cur, P, D, principal, meses, r: tasaMensual, gastosVal, gastosEsMensual, cuota: 0, total: D, totalInteres: 0, tabla: [] });
                 return;
             }
 
-            let cuotaSinGastos;
-            if (r === 0) {
-                cuotaSinGastos = principal / meses;
-            } else {
-                cuotaSinGastos = principal * (r) / (1 - Math.pow(1 + r, -meses));
-            }
-            const cuota = cuotaSinGastos + (gastosEsMensual ? gastosVal : 0);
+            const interesMensualFijo = principal * tasaAnual / 12;
+            const amortizacionMensual = principal / meses;
+            const cuotaSinGastos = amortizacionMensual + interesMensualFijo;
 
-            // Generar tabla de amortización
+            const totalInteres = interesMensualFijo * meses;
+            const total = D + (cuotaSinGastos * meses) + (gastosEsMensual ? gastosVal * meses : gastosVal);
+
+            // === Tabla de amortización fija ===
             let saldo = principal;
-            const rows = [];
+            const tabla = [];
+
             for (let i = 1; i <= meses; i++) {
-                const interes = r === 0 ? 0 : saldo * r;
-                const capital = cuotaSinGastos - interes;
-                saldo = Math.max(0, saldo - capital);
-                rows.push({ n: i, cuota: cuota, interes, capital, gastos: gastosEsMensual ? gastosVal : 0, saldo });
+                const interes = interesMensualFijo;
+                const capital = amortizacionMensual;
+                saldo -= capital;
+
+                let cuotaFinal = cuotaSinGastos;
+                let gasto = 0;
+
+                if (gastosEsMensual) {
+                    gasto = gastosVal;
+                    cuotaFinal += gasto;
+                } else if (i === 1 && gastosVal > 0) {
+                    gasto = gastosVal;
+                    cuotaFinal += gasto;
+                }
+
+                tabla.push({
+                    mes: i,
+                    cuota: cuotaFinal.toFixed(2),
+                    capital: capital.toFixed(2),
+                    interes: interes.toFixed(2),
+                    gastos: gasto.toFixed(2),
+                    saldo: saldo > 0 ? saldo.toFixed(2) : "0.00"
+                });
             }
 
-            const totalCuotas = cuota * meses + (gastosEsMensual ? 0 : gastosVal);
-            const total = D + totalCuotas;
-            const totalInteres = Math.max(0, total - (P + (gastosEsMensual ? gastosVal * meses : gastosVal)));
-
-            pintarResultados({ cur, P, D, principal, meses, r, gastosVal, gastosEsMensual, cuota, total, totalInteres, tabla: rows });
+            pintarResultados({ cur, P, D, principal, meses, r: tasaMensual, gastosVal, gastosEsMensual, cuota: cuotaSinGastos, total, totalInteres, tabla });
         }
 
         function pintarResultados(data) {
@@ -429,8 +266,8 @@
                 kpi('Enganche', fmt(D, cur) + (P ? ` (${(D / P * 100).toFixed(2)}%)` : '')) +
                 kpi('Saldo a financiar', fmt(principal, cur)) +
                 kpi('Plazo', meses + ' meses') +
-                kpi('Tasa mensual', (r * 100).toFixed(3) + '%') +
-                kpi('Cuota mensual', fmt(cuota, cur)) +
+                kpi('Tasa mensual', (r * 100).toFixed(3) + '%') + // ✅ CORREGIDO
+                kpi('Cuota base (sin gastos únicos)', fmt(cuota, cur)) +
                 kpi('Gastos ' + (gastosEsMensual ? 'mensuales' : 'únicos'), fmt(gastosVal, cur)) +
                 kpi('Total a pagar (incl. enganche)', fmt(total, cur)) +
                 kpi('Intereses estimados', fmt(totalInteres, cur));
@@ -439,11 +276,10 @@
             tbody.innerHTML = '';
             tabla.forEach(r => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${r.n}</td><td>${fmt(r.cuota, cur)}</td><td>${fmt(r.interes, cur)}</td><td>${fmt(r.capital, cur)}</td><td>${fmt(r.gastos, cur)}</td><td>${fmt(r.saldo, cur)}</td>`;
+                tr.innerHTML = `<td>${r.mes}</td><td>${fmt(r.cuota, cur)}</td><td>${fmt(r.interes, cur)}</td><td>${fmt(r.capital, cur)}</td><td>${fmt(r.gastos, cur)}</td><td>${fmt(r.saldo, cur)}</td>`;
                 tbody.appendChild(tr);
             });
 
-            // Guarda estado para exportar
             window.__cotizacion = { data, cur };
         }
 
@@ -452,15 +288,9 @@
         }
 
         btnCalcular.addEventListener('click', calcular);
-        [precio, moneda, engancheValor, engancheTipo, plazo, plazoTipo, tasa, gastos, gastosTipo].forEach(el => {
-            el.addEventListener('input', () => { /* cálculo en vivo opcional */ });
-            el.addEventListener('change', () => { /* reservado */ });
-        });
-
         btnImprimir.addEventListener('click', () => { window.print() });
-
         btnCSV.addEventListener('click', () => {
-            if (!window.__cotizacion) { return alert('Primero calcula una cotización.'); }
+            if (!window.__cotizacion) return alert('Primero calcula una cotización.');
             const { data, cur } = window.__cotizacion;
             const lines = [];
             lines.push('Campo,Valor');
@@ -470,14 +300,14 @@
             lines.push(`Saldo a financiar,${data.principal}`);
             lines.push(`Plazo (meses),${data.meses}`);
             lines.push(`Tasa mensual,${(data.r * 100).toFixed(3)}%`);
-            lines.push(`Cuota mensual,${data.cuota}`);
+            lines.push(`Cuota base,${data.cuota}`);
             lines.push(`Gastos ${data.gastosEsMensual ? 'mensuales' : 'únicos'},${data.gastosVal}`);
             lines.push(`Total a pagar,${data.total}`);
             lines.push(`Intereses,${data.totalInteres}`);
             lines.push('');
-            lines.push('N,Cuota,Interés,Capital,Gastos,Saldo');
+            lines.push('Mes,Cuota,Interés,Capital,Gastos,Saldo');
             data.tabla.forEach(r => {
-                lines.push([r.n, r.cuota, r.interes, r.capital, r.gastos, r.saldo].join(','));
+                lines.push([r.mes, r.cuota, r.interes, r.capital, r.gastos, r.saldo].join(','));
             });
             const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a');
@@ -486,7 +316,6 @@
             a.click();
             URL.revokeObjectURL(a.href);
         });
-
         btnLimpiar.addEventListener('click', () => {
             [precio, engancheValor, plazo, tasa, gastos].forEach(i => i.value = '');
             engancheTipo.value = 'monto';
@@ -497,5 +326,4 @@
         });
     </script>
 </body>
-
 </html>
